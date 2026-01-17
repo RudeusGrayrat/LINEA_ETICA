@@ -1,12 +1,13 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import InteractiveDemo from "../../Ui/PrimeReact/Steps";
 import InformacionDeDenunciante from "./Options/InformacionDenunciante";
 import InformacionDenuncia from "./Options/InformacionDenuncia";
+import ConfirmarFormDenuncia from "./Options/Confirmar";
 
-const FormDenuncia = ({ setFormDenuncia }) => {
-    const ref = useRef(null);
+const FormDenuncia = ({ setFormDenunciaShow }) => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const [formDenuncia, setFormDenunciaState] = useState({
+    const [checked, setChecked] = useState(true);
+    const [formDenuncia, setFormDenuncia] = useState({
         anonimo: true,
         relacionConLaCompañia: "",
         cargo: "",
@@ -24,15 +25,35 @@ const FormDenuncia = ({ setFormDenuncia }) => {
         descripcion: "",
         archivo: ""
     });
+    console.log("formDenuncia:", formDenuncia);
+    const isFormValid = () => {
+        // 1. Campos que SIEMPRE son obligatorios
+        const alwaysRequired = [
+            'relacionConLaCompañia', 'categoria', 'pais', 'sede',
+            'area', 'lugarDeHechos', 'fechaDeHechos', 'descripcion'
+        ];
+
+        // 2. Campos de identidad (Solo obligatorios si NO es anónimo)
+        const identityRequired = ['cargo', 'nombres', 'apellidos', 'telefono'];
+
+        // Validar campos generales
+        const isGeneralValid = alwaysRequired.every(field =>
+            formDenuncia[field] && formDenuncia[field].toString().trim() !== ""
+        );
+
+        // Validar campos de identidad condicionalmente
+        const isIdentityValid = formDenuncia.anonimo
+            ? true  // Si es anónimo, esta parte pasa automáticamente
+            : identityRequired.every(field =>
+                formDenuncia[field] && formDenuncia[field].toString().trim() !== ""
+            );
+
+        return isGeneralValid && isIdentityValid;
+    };
     const stepsComponents = {
-        0: <InformacionDeDenunciante form={formDenuncia} setForm={setFormDenunciaState} />,
-        1: <InformacionDenuncia form={formDenuncia} setForm={setFormDenunciaState} />,
-        2: <div className="p-10">
-            <h2 className="text-2xl font-bold mb-4">Confirmar Información</h2>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto">
-                {JSON.stringify(formDenuncia, null, 2)}
-            </pre>
-        </div>
+        0: <InformacionDeDenunciante form={formDenuncia} setForm={setFormDenuncia} checked={checked} setChecked={setChecked} />,
+        1: <InformacionDenuncia form={formDenuncia} setForm={setFormDenuncia} />,
+        2: <ConfirmarFormDenuncia form={formDenuncia} setForm={setFormDenuncia} />
 
     };
     const items = [
@@ -45,41 +66,40 @@ const FormDenuncia = ({ setFormDenuncia }) => {
             style={{ backgroundColor: "rgb(100,100,100, 0.4)" }}
         >
 
-            <div className="bg-white w-150 h-[80vh] rounded-4xl
-            border-2 shadow-2xl flex flex-col items-center justify-between"
-                style={{ borderColor: "rgba(202, 34, 40, 0.6)", boxShadow: "0 5px 8px 6px rgba(202, 34, 40, 0.25)" }}
+            <div className="bg-white w-150 max-md:w-[90%] h-[80vh] max-md:h-[90vh] rounded-4xl
+             shadow-2xl flex flex-col items-center justify-between"
+                style={{  boxShadow: "0 5px 8px 6px rgba(142, 25, 25, 0.25)" }}
             >
-                <div className="w-full  h-[87%] py-4 mt-3">
-                    <div className="w-full h-[10%] ">
+                <div className="w-full  h-[87%] max-md:h-[85%]  py-4 max-md:py-1 mt-3">
+                    <div className="w-full h-[10%] max-md:h-[12%] ">
                         <InteractiveDemo activeIndex={activeIndex}
                             setActiveIndex={setActiveIndex} items={items} />
                     </div>
                     <div className="w-full h-0.5 mt-4 bg-gray-300" />
-                    <div className="w-full h-[89%]">
+                    <div className="w-full h-[89%] max-md:h-[85%]">
                         {stepsComponents[activeIndex]}
                     </div>
                 </div>
-                <div className="h-[13%] flex justify-center items-center">
+                <div className="h-[13%]  flex justify-center items-center border-t border-gray-300 w-full">
                     <button
-                        className="bg-red-400 min-w-50 text-white px-5 py-2 rounded-xl cursor-pointer"
+                        className="border-red-500 max-md:min-w-20! border min-w-50 text-black px-5 py-2 rounded-xl cursor-pointer"
                         onClick={() => {
                             if (activeIndex === 0) {
-                                setFormDenuncia(false);
+                                setFormDenunciaShow(false);
                             } else {
                                 setActiveIndex(activeIndex - 1);
                             }
-                        }
-
-                        }
+                        }}
                     >
                         {activeIndex === 0 ? "Cancelar" : "Anterior"}
                     </button>
                     <button
-                        className="bg-[#12BF80] min-w-50 text-white px-5 py-2 rounded-xl cursor-pointer ml-4"
+                        className={`${(isFormValid() || activeIndex < 2) ? "border-[#12BF80] border cursor-pointer" : "bg-gray-300 cursor-not-allowed"
+                            } max-md:min-w-20! min-w-50 text-black px-5 py-2 rounded-xl ml-4`}
+                        disabled={!isFormValid() && activeIndex === 2 ? true : false} // Bloquea el botón
                         onClick={() => {
                             if (activeIndex === Object.keys(stepsComponents).length - 1) {
-                                // Aquí se podría manejar el envío del formulario
-                                setFormDenuncia(false);
+                                setFormDenunciaShow(false);
                             } else {
                                 setActiveIndex(activeIndex + 1);
                             }

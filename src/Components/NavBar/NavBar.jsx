@@ -8,7 +8,7 @@ const NavBar = () => {
             </div>
             <div>
                 <span>
-                    <h1 className="text-white text-4xl font-semibold">Línea Ética</h1>
+                    <h1 className="text-white max-md:text-2xl text-4xl font-semibold">Línea Ética</h1>
                 </span>
             </div>
         </div>

@@ -3,7 +3,7 @@ import Input from "../../../Ui/Others/Input";
 import InputFile from "../../../Ui/Others/InputFile";
 const InformacionDenuncia = ({ form, setForm }) => {
     return (
-        <div className="w-full h-full overflow-y-auto text-start gap-2 flex flex-col p-10">
+        <div className="w-full h-full overflow-y-auto overflow-x-hidden text-start gap-3 flex flex-col p-10 max-md:p-4">
             <Input
                 label="Categoría de denuncia"
                 name="categoria"
@@ -88,7 +88,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 </label>
                 <textarea
                     label="descripcion"
-                    className="mt-1 py-2 border px-3 w-[100%] !text-base rounded-md shadow-sm sm:text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 py-2 border border-gray-300 px-3 w-[100%] !text-base rounded-md shadow-sm sm:text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     name="descripcion"
                     placeholder="¿Que sucedió?"
                     onChange={(e) => setForm({ ...form, descripcion: e.target.value })}

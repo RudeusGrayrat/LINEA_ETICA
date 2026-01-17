@@ -17,7 +17,7 @@ function App() {
           <span className='text-black text-4xl font-semibold p-4 mb-16'>
             ¿Qué desea hacer?
           </span>
-          <div className=' flex items-center justify-center gap-20 '>
+          <div className=' flex items-center justify-center gap-20 max-md:gap-6 '>
             <Denunciar />
             <Consultar />
           </div>

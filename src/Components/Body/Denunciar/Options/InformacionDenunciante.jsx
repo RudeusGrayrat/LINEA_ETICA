@@ -2,15 +2,22 @@ import { InputSwitch } from "primereact/inputswitch";
 import { useState } from "react";
 import Input from "../../../Ui/Others/Input";
 
-const InformacionDeDenunciante = ({ form, setForm }) => {
-    const [checked, setChecked] = useState(true);
+const InformacionDeDenunciante = ({ form, setForm, checked, setChecked }) => {
+    const changeChecked = (value) => {
+        console.log("Anonimo:", value);
+        setChecked(value);
+        setForm(prevForm => ({
+            ...prevForm,
+            anonimo: value
+        }));
+    }
     return (
-        <div className="w-full">
-            <div className="flex items-center justify-end mt-6 m-2 mr-10">
+        <div className="w-full h-full overflow-y-auto text-start gap-2 flex flex-col p-10 max-md:p-4 ">
+            <div className="flex items-center justify-end  mr-10">
                 <label className="mr-2" htmlFor="inputSwitch">Denuncia Anónima</label>
-                <InputSwitch id="inputSwitch" checked={checked} onChange={(e) => setChecked(e.value)} />
+                <InputSwitch id="inputSwitch" checked={checked} onChange={(e) => changeChecked(e.value)} />
             </div>
-            <div className=" text-start mt-4 gap-2 flex flex-col px-10">
+            <div className=" text-start mt-4 gap-2 flex flex-col">
                 <Input
                     label="Relación con la Compañía"
                     name="relacionConLaCompañia"
