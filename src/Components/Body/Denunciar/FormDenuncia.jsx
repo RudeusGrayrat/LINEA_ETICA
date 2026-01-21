@@ -3,38 +3,45 @@ import InteractiveDemo from "../../Ui/PrimeReact/Steps";
 import InformacionDeDenunciante from "./Options/InformacionDenunciante";
 import InformacionDenuncia from "./Options/InformacionDenuncia";
 import ConfirmarFormDenuncia from "./Options/Confirmar";
+import PopUp from "../../Ui/Messages/PopUp";
+import axios from "../../../api/axios";
 
 const FormDenuncia = ({ setFormDenunciaShow }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [checked, setChecked] = useState(true);
+    const [popupContent, setPopupContent] = useState({
+        message: "",
+        type: ""
+    });
+    const [deshabilitar, setDeshabilitar] = useState(false);
+
     const [formDenuncia, setFormDenuncia] = useState({
         anonimo: true,
-        relacionConLaCompañia: "",
+        relacionCompania: "",
         cargo: "",
         nombres: "",
         apellidos: "",
         telefono: "",
         correo: "",
-        categoria: "",
+        categoriaDenuncia: "",
         pais: "PERU",
         sede: "",
         area: "",
         involucrados: "",
-        lugarDeHechos: "",
-        fechaDeHechos: "",
-        descripcion: "",
+        lugarHechos: "",
+        fechaHechos: "",
+        descripcionHechos: "",
         archivo: ""
     });
-    console.log("formDenuncia:", formDenuncia);
     const isFormValid = () => {
         // 1. Campos que SIEMPRE son obligatorios
         const alwaysRequired = [
-            'relacionConLaCompañia', 'categoria', 'pais', 'sede',
-            'area', 'lugarDeHechos', 'fechaDeHechos', 'descripcion'
+            'relacionCompania', 'categoriaDenuncia', 'pais', 'sede',
+            'area', 'lugarHechos', 'fechaHechos', 'descripcionHechos'
         ];
 
         // 2. Campos de identidad (Solo obligatorios si NO es anónimo)
-        const identityRequired = ['cargo', 'nombres', 'apellidos', 'telefono'];
+        const identityRequired = ['cargo', 'nombres', 'apellidos', 'telefono', 'correo'];
 
         // Validar campos generales
         const isGeneralValid = alwaysRequired.every(field =>
@@ -61,14 +68,41 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
         { label: 'Denuncia' },
         { label: "Confirmar" }
     ];
+
+    const enviarDenuncia = async () => {
+        setPopupContent({
+            message: "Enviando denuncia...",
+            type: "Info"
+        });
+        setDeshabilitar(true);
+        try {
+
+            //debe de poder hacer que segaurde en la bd y envie un correo a la persona que hizo la denuncia, así como a la autoridad que le corresponde
+
+            const response = await axios.post("/postDenuncia", formDenuncia);
+            setPopupContent({
+                message: response.data.message || "La ddo enviada correctamente.",
+                type: response.data.type || "rrecto"
+            });
+        } catch (error) {
+            setPopupContent({
+                message: error.response?.data?.message || "Error al enviar la denuncia.",
+                type: "Error"
+            });
+        } finally {
+            setDeshabilitar(false);
+        }
+    }
+
     return (
-        <div className="fixed flex top-0 left-0 flex-col items-center justify-center z-50 w-full h-full "
+        <div className="fixed flex top-0 left-0 flex-col items-center justify-center z-40 w-full h-full "
             style={{ backgroundColor: "rgb(100,100,100, 0.4)" }}
         >
+            <PopUp message={popupContent.message} setShowForm={setFormDenunciaShow} type={popupContent.type} deshabilitar={deshabilitar} />
 
             <div className="bg-white w-150 max-md:w-[90%] h-[80vh] max-md:h-[90vh] rounded-4xl
              shadow-2xl flex flex-col items-center justify-between"
-                style={{  boxShadow: "0 5px 8px 6px rgba(142, 25, 25, 0.25)" }}
+                style={{ boxShadow: "0 5px 8px 6px rgba(142, 25, 25, 0.25)" }}
             >
                 <div className="w-full  h-[87%] max-md:h-[85%]  py-4 max-md:py-1 mt-3">
                     <div className="w-full h-[10%] max-md:h-[12%] ">
@@ -99,7 +133,7 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
                         disabled={!isFormValid() && activeIndex === 2 ? true : false} // Bloquea el botón
                         onClick={() => {
                             if (activeIndex === Object.keys(stepsComponents).length - 1) {
-                                setFormDenunciaShow(false);
+                                enviarDenuncia()
                             } else {
                                 setActiveIndex(activeIndex + 1);
                             }

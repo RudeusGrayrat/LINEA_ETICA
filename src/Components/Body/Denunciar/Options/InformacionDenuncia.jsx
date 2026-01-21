@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Input from "../../../Ui/Others/Input";
 import InputFile from "../../../Ui/Others/InputFile";
 const InformacionDenuncia = ({ form, setForm }) => {
@@ -6,28 +5,17 @@ const InformacionDenuncia = ({ form, setForm }) => {
         <div className="w-full h-full overflow-y-auto overflow-x-hidden text-start gap-3 flex flex-col p-10 max-md:p-4">
             <Input
                 label="Categoría de denuncia"
-                name="categoria"
+                name="categoriaDenuncia"
                 type="select"
-                options={[
-                    { label: "SOBORNO", value: "SOBORNO" },
-                    { label: "CONFLICTO DE INTERÉS", value: "CONFLICTO DE INTERÉS" },
-                    { label: "HOSTIGAMIENTO LABORAL", value: "HOSTIGAMIENTO LABORAL" },
-                    { label: "HOSTIGAMIENTO SEXUAL", value: "HOSTIGAMIENTO SEXUAL" },
-                    { label: "DISCRIMINACIÓN", value: "DISCRIMINACIÓN" },
-                    { label: "OTRO", value: "OTRO" },]}
-                value={form.categoria}
+                options={["SOBORNO", "CONFLICTO DE INTERÉS", "HOSTIGAMIENTO LABORAL", "HOSTIGAMIENTO SEXUAL", "DISCRIMINACIÓN", "OTRO"]}
+                value={form.categoriaDenuncia}
                 setForm={setForm}
             />
             <Input
                 label="Pais"
                 name="pais"
                 type="select"
-                options={[
-                    { label: "PERU", value: "PERU" },
-                    { label: "CHILE", value: "CHILE" },
-                    { label: "COLOMBIA", value: "COLOMBIA" },
-                    { label: "MEXICO", value: "MEXICO" },
-                    { label: "OTRO", value: "OTRO" },]}
+                options={["PERU", "CHILE", "COLOMBIA", "MEXICO", "ARGENTINA",]}
                 value={form.pais}
                 setForm={setForm}
             />
@@ -35,12 +23,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 label="Sede"
                 name="sede"
                 type="select"
-                options={[
-                    { label: "SAN ISIDRO", value: "SAN ISIDRO" },
-                    { label: "LURIN", value: "LURIN" },
-                    { label: "LA VICTORIA", value: "LA VICTORIA" },
-                    { label: "CHINCHA", value: "CHINCHA" },
-                    { label: "OTRO", value: "OTRO" },]}
+                options={["SAN ISIDRO", "LURIN", "LA VICTORIA", "CHINCHA", "OTRO",]}
                 value={form.sede}
                 setForm={setForm}
             />
@@ -48,14 +31,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 label="Área"
                 name="area"
                 type="select"
-                options={[
-                    { label: "RECURSOS HUMANOS", value: "RECURSOS HUMANOS" },
-                    { label: "FINANZAS", value: "FINANZAS" },
-                    { label: "RECEPCIÓN", value: "RECEPCIÓN" },
-                    { label: "LOGÍSTICA", value: "LOGÍSTICA" },
-                    { label: "SISTEMAS", value: "SISTEMAS" },
-                    { label: "CONTABILIDAD", value: "CONTABILIDAD" },
-                    { label: "OTRO", value: "OTRO" },]}
+                options={["RECURSOS HUMANOS", "FINANZAS", "RECEPCIÓN", "LOGÍSTICA", "SISTEMAS", "CONTABILIDAD", "OTRO"]}
                 value={form.area}
                 setForm={setForm}
             />
@@ -69,17 +45,17 @@ const InformacionDenuncia = ({ form, setForm }) => {
             />
             <Input
                 label="Lugar de los hechos"
-                name="lugarDeHechos"
+                name="lugarHechos"
                 placeholder="¿Dónde ocurrieron los hechos?"
                 type="text"
-                value={form.lugarDeHechos}
+                value={form.lugarHechos}
                 setForm={setForm}
             />
             <Input
                 label="Fecha de los hechos"
-                name="fechaDeHechos"
+                name="fechaHechos"
                 type="date"
-                value={form.fechaDeHechos}
+                value={form.fechaHechos}
                 setForm={setForm}
             />
             <div className=" flex flex-col mx-3 w-[95%] ">
@@ -87,11 +63,11 @@ const InformacionDenuncia = ({ form, setForm }) => {
                     Descripción de los hechos
                 </label>
                 <textarea
-                    label="descripcion"
+                    label="descripcionHechos"
                     className="mt-1 py-2 border border-gray-300 px-3 w-[100%] !text-base rounded-md shadow-sm sm:text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    name="descripcion"
+                    name="descripcionHechos"
                     placeholder="¿Que sucedió?"
-                    onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
+                    onChange={(e) => setForm({ ...form, descripcionHechos: e.target.value })}
                 />
             </div>
             <InputFile

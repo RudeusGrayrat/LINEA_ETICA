@@ -4,7 +4,6 @@ import Input from "../../../Ui/Others/Input";
 
 const InformacionDeDenunciante = ({ form, setForm, checked, setChecked }) => {
     const changeChecked = (value) => {
-        console.log("Anonimo:", value);
         setChecked(value);
         setForm(prevForm => ({
             ...prevForm,
@@ -20,24 +19,17 @@ const InformacionDeDenunciante = ({ form, setForm, checked, setChecked }) => {
             <div className=" text-start mt-4 gap-2 flex flex-col">
                 <Input
                     label="Relación con la Compañía"
-                    name="relacionConLaCompañia"
+                    name="relacionCompania"
                     type="select"
-                    options={[
-                        { label: "Empleado", value: "Empleado" },
-                        { label: "Ex Empleado", value: "Ex Empleado" },
-                        { label: "Proveedor", value: "Proveedor" },]}
-                    value={form.relacionConLaCompañia}
+                    options={["TRABAJADOR", "CLIENTE", "PROVEEDOR", "ENTIDAD GUBERNAMENTAL", "EXTRABAJADOR", "OTRO"]}
+                    value={form.relacionCompania}
                     setForm={setForm}
                 />
                 <Input
                     label="Cargo"
                     name="cargo"
                     type="select"
-                    options={[
-                        { label: "Gerente", value: "Gerente" },
-                        { label: "Supervisor", value: "Supervisor" },
-                        { label: "Asistente", value: "Asistente" },
-                        { label: "Otro", value: "Otro" },]}
+                    options={["ASISTENTE", "COORDINADOR/A", "JEFATURA", "SUPERVISOR", "OTRO"]}
                     value={form.cargo}
                     setForm={setForm}
                     disabled={checked}
@@ -68,10 +60,12 @@ const InformacionDeDenunciante = ({ form, setForm, checked, setChecked }) => {
                 />
                 <Input
                     label="Correo Electrónico"
+                    placeholder={!checked ? "Se usará para notificar el estado de su denuncia" : "Ingrese su correo electrónico"}
                     name="correo"
                     type="email"
                     value={form.correo}
                     setForm={setForm}
+                    disabled={checked}
                 />
             </div>
         </div>

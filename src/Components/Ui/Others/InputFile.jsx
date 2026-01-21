@@ -9,6 +9,7 @@ const InputFile = (props) => {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [fileName, setFileName] = useState(null);
 
   const styleError = "border-red-500 animate-shake";
   const styleNormal = "border-gray-300";
@@ -51,6 +52,7 @@ const InputFile = (props) => {
       // Simulación de procesamiento
       setTimeout(() => {
         setForm((prev) => ({ ...prev, [name]: file }));
+        setFileName(file.name);
         setAnimation(false);
         setError(false);
         setErrorMessage("");
@@ -128,13 +130,23 @@ const InputFile = (props) => {
           />
         </svg>
 
-        {isLoading ? "Cargando archivo..." : "Agregar archivo"}
+        {isLoading
+          ? "Cargando archivo..."
+          : fileName
+            ? "Reemplazar archivo"
+            : "Agregar archivo"}
+
       </button>
 
       {/* MENSAJES */}
       {error && (
         <span className="mt-1 text-xs text-red-500">
           {errorMessage || "Este campo es obligatorio"}
+        </span>
+      )}
+      {fileName && !error && (
+        <span className="mt-1 text-xs text-green-600 break-all">
+          Archivo cargado: <strong>{fileName}</strong>
         </span>
       )}
     </div>

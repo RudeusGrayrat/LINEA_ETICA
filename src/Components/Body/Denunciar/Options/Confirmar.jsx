@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const ConfirmarFormDenuncia = ({ form, setForm }) => {
     const [missingFields, setMissingFields] = useState(false);
-    console.log("Missing Fields:", missingFields);
+    const optionalFields = ['archivo'];
     useEffect(() => {
         if (form.anonimo) {
             setForm(prevForm => ({
@@ -11,8 +11,9 @@ const ConfirmarFormDenuncia = ({ form, setForm }) => {
                 nombres: "ANONIMO",
                 apellidos: "ANONIMO",
                 telefono: 0,
+                correo: "ANONIMO"
             }));
-            const requiredFields = ['cargo', 'nombres', 'apellidos', 'telefono'];
+            const requiredFields = ['cargo', 'nombres', 'apellidos', 'telefono', "correo"];
             const missing = requiredFields.some(field => !form[field]);
             setMissingFields(missing);
         }
@@ -35,10 +36,9 @@ const ConfirmarFormDenuncia = ({ form, setForm }) => {
                             <span className="text-gray-700">{form.anonimo ? "SI" : "NO"}</span>
                         ) : form.anonimo && ['cargo', 'nombres', 'apellidos', 'telefono'].includes(key) ? (
                             <span className="text-gray-500 italic">{"ANONIMO"}</span>
-                        ) : value ? (
-                            /* CAMBIO 2: break-words y whitespace-pre-wrap para respetar saltos de línea */
-                            <span className={`block break-words whitespace-pre-wrap ${missingFields && !value ? 'text-red-500' : 'text-gray-800'}`}>
-                                {value}
+                        ) : value || optionalFields.includes(key) ? (
+                            <span className={`block break-words whitespace-pre-wrap text-gray-800`}>
+                                {value || "No adjuntado"}
                             </span>
                         ) : (
                             <span className="text-red-500 italic">Falta</span>
