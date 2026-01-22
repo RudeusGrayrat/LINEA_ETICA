@@ -1,9 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const InputFile = (props) => {
-  const { label, name, errorOnclick, ancho, setForm, type } = props;
+  const { label, name, errorOnclick, ancho, setForm, type, maxSize } = props;
 
   const fileRef = useRef(null);
+  const DEFAULT_ALLOWED_TYPES = [
+    "image/jpeg",
+    "image/png",
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  ];
+  const MAX_FILE_SIZE = 15 * 1024 * 1024; // 15MB
+
 
   const [animation, setAnimation] = useState(false);
   const [error, setError] = useState(false);
@@ -36,18 +45,29 @@ const InputFile = (props) => {
       }
 
       setIsLoading(true);
+      const maxBytes = maxSize || MAX_FILE_SIZE;
+      const maxMB = Math.round(maxBytes / (1024 * 1024));
 
-      const validFiles = type
-        ? type
-        : ["image/jpeg", "image/png", "image/jpg"];
+      if (file.size > maxBytes) {
+        setIsLoading(false);
+        setError(true);
+        setErrorMessage(`El archivo no debe superar los ${maxMB} MB`);
+        e.target.value = null;
+        return;
+      }
 
-      if (!validFiles.includes(file.type)) {
+      const allowedTypes = type || DEFAULT_ALLOWED_TYPES;
+
+      if (!allowedTypes.includes(file.type)) {
         setAnimation(true);
         setError(true);
-        setErrorMessage("No se permiten otros tipos de archivos");
+        setErrorMessage(
+          "Tipo de archivo no permitido. Solo se aceptan imágenes, PDF o Word."
+        );
         setIsLoading(false);
         return;
       }
+
 
       // Simulación de procesamiento
       setTimeout(() => {
@@ -89,7 +109,7 @@ const InputFile = (props) => {
         id={name}
         onBlur={handleBlur}
         onChange={handleChange}
-        accept={type ? type : ["image/jpeg", "image/png", "image/jpg"]}
+        accept={(type || DEFAULT_ALLOWED_TYPES).join(",")}
         className="hidden"
         disabled={isLoading}
       />

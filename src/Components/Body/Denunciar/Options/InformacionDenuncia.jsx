@@ -7,6 +7,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 label="Categoría de denuncia"
                 name="categoriaDenuncia"
                 type="select"
+                editable={false}
                 options={["SOBORNO", "CONFLICTO DE INTERÉS", "HOSTIGAMIENTO LABORAL", "HOSTIGAMIENTO SEXUAL", "DISCRIMINACIÓN", "OTRO"]}
                 value={form.categoriaDenuncia}
                 setForm={setForm}
@@ -15,6 +16,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 label="Pais"
                 name="pais"
                 type="select"
+                editable={false}
                 options={["PERU", "CHILE", "COLOMBIA", "MEXICO", "ARGENTINA",]}
                 value={form.pais}
                 setForm={setForm}
@@ -23,6 +25,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 label="Sede"
                 name="sede"
                 type="select"
+                editable={false}
                 options={["SAN ISIDRO", "LURIN", "LA VICTORIA", "CHINCHA", "OTRO",]}
                 value={form.sede}
                 setForm={setForm}
@@ -31,6 +34,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 label="Área"
                 name="area"
                 type="select"
+                editable={false}
                 options={["RECURSOS HUMANOS", "FINANZAS", "RECEPCIÓN", "LOGÍSTICA", "SISTEMAS", "CONTABILIDAD", "OTRO"]}
                 value={form.area}
                 setForm={setForm}
@@ -67,10 +71,12 @@ const InformacionDenuncia = ({ form, setForm }) => {
                     className="mt-1 py-2 border border-gray-300 px-3 w-[100%] !text-base rounded-md shadow-sm sm:text-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                     name="descripcionHechos"
                     placeholder="¿Que sucedió?"
+                    value={form.descripcionHechos}
                     onChange={(e) => setForm({ ...form, descripcionHechos: e.target.value })}
                 />
             </div>
             <InputFile
+                type={['image/jpeg', 'image/png', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'video/mp4']}
                 label="Adjuntar archivo"
                 name="archivo"
                 setForm={setForm}

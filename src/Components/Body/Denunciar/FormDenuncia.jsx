@@ -78,11 +78,26 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
         try {
 
             //debe de poder hacer que segaurde en la bd y envie un correo a la persona que hizo la denuncia, así como a la autoridad que le corresponde
+            let response = null;
+            if (formDenuncia.archivo) {
+                const formData = new FormData();
+                Object.entries(formDenuncia).forEach(([key, value]) => {
+                    if (value !== null && value !== undefined) {
+                        formData.append(key, value);
+                    }
+                });
+                response = await axios.post("/postDenuncia", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data"
+                    }
+                });
+            } else {
 
-            const response = await axios.post("/postDenuncia", formDenuncia);
+                response = await axios.post("/postDenuncia", formDenuncia);
+            }
             setPopupContent({
-                message: response.data.message || "La ddo enviada correctamente.",
-                type: response.data.type || "rrecto"
+                message: response.data.message || "La denuncia enviada correctamente.",
+                type: response.data.type || "Correcto"
             });
         } catch (error) {
             setPopupContent({
@@ -102,7 +117,7 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
 
             <div className="bg-white w-150 max-md:w-[90%] h-[80vh] max-md:h-[90vh] rounded-4xl
              shadow-2xl flex flex-col items-center justify-between"
-                style={{ boxShadow: "0 5px 8px 6px rgba(142, 25, 25, 0.25)" }}
+                style={{ boxShadow: "0 5px 8px 6px rgba(100,100,100, 0.4)" }}
             >
                 <div className="w-full  h-[87%] max-md:h-[85%]  py-4 max-md:py-1 mt-3">
                     <div className="w-full h-[10%] max-md:h-[12%] ">

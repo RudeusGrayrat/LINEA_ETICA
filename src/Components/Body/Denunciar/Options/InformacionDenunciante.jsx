@@ -11,16 +11,17 @@ const InformacionDeDenunciante = ({ form, setForm, checked, setChecked }) => {
         }));
     }
     return (
-        <div className="w-full h-full overflow-y-auto text-start gap-2 flex flex-col p-10 max-md:p-4 ">
+        <div className="w-full h-full overflow-y-auto text-start gap-2 flex flex-col p-4 px-10 max-md:p-4 ">
             <div className="flex items-center justify-end  mr-10">
                 <label className="mr-2" htmlFor="inputSwitch">Denuncia Anónima</label>
                 <InputSwitch id="inputSwitch" checked={checked} onChange={(e) => changeChecked(e.value)} />
             </div>
-            <div className=" text-start mt-4 gap-2 flex flex-col">
+            <div className=" text-start  gap-2 flex flex-col">
                 <Input
                     label="Relación con la Compañía"
                     name="relacionCompania"
                     type="select"
+                    editable={false}
                     options={["TRABAJADOR", "CLIENTE", "PROVEEDOR", "ENTIDAD GUBERNAMENTAL", "EXTRABAJADOR", "OTRO"]}
                     value={form.relacionCompania}
                     setForm={setForm}
@@ -29,6 +30,7 @@ const InformacionDeDenunciante = ({ form, setForm, checked, setChecked }) => {
                     label="Cargo"
                     name="cargo"
                     type="select"
+                    editable={false}
                     options={["ASISTENTE", "COORDINADOR/A", "JEFATURA", "SUPERVISOR", "OTRO"]}
                     value={form.cargo}
                     setForm={setForm}

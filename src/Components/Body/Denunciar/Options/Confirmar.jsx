@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const ConfirmarFormDenuncia = ({ form, setForm }) => {
-    const [missingFields, setMissingFields] = useState(false);
     const optionalFields = ['archivo'];
     useEffect(() => {
         if (form.anonimo) {
@@ -13,9 +12,7 @@ const ConfirmarFormDenuncia = ({ form, setForm }) => {
                 telefono: 0,
                 correo: "ANONIMO"
             }));
-            const requiredFields = ['cargo', 'nombres', 'apellidos', 'telefono', "correo"];
-            const missing = requiredFields.some(field => !form[field]);
-            setMissingFields(missing);
+
         }
     }, [form.anonimo]);
 
@@ -36,13 +33,22 @@ const ConfirmarFormDenuncia = ({ form, setForm }) => {
                             <span className="text-gray-700">{form.anonimo ? "SI" : "NO"}</span>
                         ) : form.anonimo && ['cargo', 'nombres', 'apellidos', 'telefono'].includes(key) ? (
                             <span className="text-gray-500 italic">{"ANONIMO"}</span>
+                        ) : key === "archivo" ? (
+                            value ? (
+                                <span className="text-gray-800">
+                                    📎 {value.name}
+                                </span>
+                            ) : (
+                                <span className="text-gray-500 italic">No adjuntado</span>
+                            )
                         ) : value || optionalFields.includes(key) ? (
-                            <span className={`block break-words whitespace-pre-wrap text-gray-800`}>
-                                {value || "No adjuntado"}
+                            <span className="block break-words whitespace-pre-wrap text-gray-800">
+                                {String(value)}
                             </span>
-                        ) : (
-                            <span className="text-red-500 italic">Falta</span>
-                        )}
+                        )
+                            : (
+                                <span className="text-red-500 italic">Falta</span>
+                            )}
                     </div>
                 </div>
             ))}
