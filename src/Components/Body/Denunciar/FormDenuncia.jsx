@@ -100,9 +100,10 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
                 type: response.data.type || "Correcto"
             });
         } catch (error) {
+            console.error("Error al enviar la denuncia:", error);
             setPopupContent({
-                message: error.response?.data?.message || "Error al enviar la denuncia.",
-                type: "Error"
+                message: error.message || "Error al enviar la denuncia.",
+                type: error.type || "Error"
             });
         } finally {
             setDeshabilitar(false);
