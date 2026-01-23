@@ -7,7 +7,7 @@ const Denunciar = () => {
     return (
         <>
             <div
-                className="bg-white border-2 rounded-4xl shadow-2xl p-4 w-[24%] max-md:w-[40%] h-[31vh] max-sm:w-60 max-sm:h-50 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-all duration-300"
+                className="bg-white border-2 rounded-4xl shadow-2xl p-4 max-lg:w-[40%] w-[24%] max-md:w-[40%] h-[31vh] max-sm:w-60 max-sm:h-50 flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-all duration-300"
                 style={{ borderColor: "rgba(250, 240, 55, 0.28)", boxShadow: "0 5px 8px 6px rgba(103, 98, 0, 0.25)" }}
                 onClick={() => setFormDenunciaShow(true)}
             >
