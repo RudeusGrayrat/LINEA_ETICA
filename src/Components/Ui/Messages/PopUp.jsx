@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const PopUp = ({ deshabilitar, message, setShowForm, type, ...OtherProps }) => {
-    console.log("PopUp props - message:", message, "type:", type);
     const [showPopUp, setShowPopUp] = useState(false);
     const [errors, setErrors] = useState({ message: null, type: null });
 
