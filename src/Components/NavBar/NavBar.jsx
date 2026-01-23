@@ -1,7 +1,7 @@
 const NavBar = () => {
     return (
-        <div className="bg-white border-b border-gray-200 h-full w-full flex items-center">
-            <div className="ml-10 h-[70%]">
+        <div className="bg-white border-b max-sm:justify-center border-gray-200 h-full w-full flex items-center">
+            <div className="ml-10 max-sm:ml-0 h-[70%]">
                 <img src="/LOGO.svg" alt="LOGO" className="h-full!" />
             </div>
             <div className="w-1 mx-10 h-[60%] bg-gray-500 rounded-2xl">
