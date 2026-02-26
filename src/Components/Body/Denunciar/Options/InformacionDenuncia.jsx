@@ -35,7 +35,7 @@ const InformacionDenuncia = ({ form, setForm }) => {
                 name="area"
                 type="select"
                 editable={false}
-                options={["RECURSOS HUMANOS", "FINANZAS", "RECEPCIÓN", "LOGÍSTICA", "SISTEMAS", "CONTABILIDAD", "OTRO"]}
+                options={["TESORERÍA", "COMERCIAL", "TRANSPORTES", "OPERACIONES", "CERTIFICACIÓN", "CONTABILIDAD", "RECURSOS HUMANOS", "FINANZAS", "LOGÍSTICA", "SISTEMAS", "OTRO"]}
                 value={form.area}
                 setForm={setForm}
             />
