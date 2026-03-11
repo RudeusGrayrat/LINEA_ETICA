@@ -5,16 +5,17 @@ import InformacionDenuncia from "./Options/InformacionDenuncia";
 import ConfirmarFormDenuncia from "./Options/Confirmar";
 import PopUp from "../../Ui/Messages/PopUp";
 import axios from "../../../api/axios";
-
+import "./denunciaStyles.css"
 const FormDenuncia = ({ setFormDenunciaShow }) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [direction, setDirection] = useState("right");
     const [checked, setChecked] = useState(true);
     const [popupContent, setPopupContent] = useState({
         message: "",
         type: ""
     });
     const [deshabilitar, setDeshabilitar] = useState(false);
-
+    const [closing, setClosing] = useState(false);
     const [formDenuncia, setFormDenuncia] = useState({
         anonimo: true,
         relacionCompania: "",
@@ -33,6 +34,12 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
         descripcionHechos: "",
         archivo: ""
     });
+    const handleClose = () => {
+        setClosing(true);
+        setTimeout(() => {
+            setFormDenunciaShow(false);
+        }, 300); // mismo tiempo que la animación
+    };
     const isFormValid = () => {
         // 1. Campos que SIEMPRE son obligatorios
         const alwaysRequired = [
@@ -111,13 +118,17 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
     }
 
     return (
-        <div className="fixed flex top-0 left-0 flex-col items-center justify-center z-40 w-full h-full "
-            style={{ backgroundColor: "rgb(100,100,100, 0.4)" }}
+        <div className={`fixed flex top-0 left-0 flex-col items-center justify-center z-40 w-full h-full
+            ${closing ? "backdrop-salida" : "backdrop-entrada"}`}
+            style={{
+                backdropFilter: "blur(3px) saturate(100%)",
+                WebkitBackdropFilter: "blur(5px) saturate(120%)",
+            }}
         >
             <PopUp message={popupContent.message} setShowForm={setFormDenunciaShow} type={popupContent.type} deshabilitar={deshabilitar} />
 
-            <div className="bg-white w-150 max-md:w-[90%] h-[80vh] max-md:h-[90vh] rounded-4xl
-             shadow-2xl flex flex-col items-center justify-between"
+            <div className={`bg-white w-150 max-md:w-[90%] h-[80vh] max-md:h-[90vh] rounded-4xl
+             shadow-2xl flex flex-col items-center justify-between ${closing ? "modal-salida" : "modal-entrada"}`}
                 style={{ boxShadow: "0 5px 8px 6px rgba(100,100,100, 0.4)" }}
             >
                 <div className="w-full  h-[87%] max-md:h-[85%]  py-4 max-md:py-1 mt-3">
@@ -126,7 +137,8 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
                             setActiveIndex={setActiveIndex} items={items} />
                     </div>
                     <div className="w-full h-0.5 mt-4 bg-gray-300" />
-                    <div className="w-full h-[89%] max-md:h-[85%]">
+                    <div key={activeIndex}
+                        className={`w-full h-[89%] max-md:h-[85%] ${direction === "right" ? "slide-in-right" : "slide-in-left"}`}>
                         {stepsComponents[activeIndex]}
                     </div>
                 </div>
@@ -135,8 +147,9 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
                         className="border-red-500 max-md:min-w-20! border min-w-50 text-black px-5 py-2 rounded-xl cursor-pointer"
                         onClick={() => {
                             if (activeIndex === 0) {
-                                setFormDenunciaShow(false);
+                                handleClose()
                             } else {
+                                setDirection("left");
                                 setActiveIndex(activeIndex - 1);
                             }
                         }}
@@ -151,6 +164,7 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
                             if (activeIndex === Object.keys(stepsComponents).length - 1) {
                                 enviarDenuncia()
                             } else {
+                                setDirection("right");
                                 setActiveIndex(activeIndex + 1);
                             }
                         }}
