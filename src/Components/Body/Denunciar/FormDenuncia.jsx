@@ -127,7 +127,7 @@ const FormDenuncia = ({ setFormDenunciaShow }) => {
         >
             <PopUp message={popupContent.message} setShowForm={setFormDenunciaShow} type={popupContent.type} deshabilitar={deshabilitar} />
 
-            <div className={`bg-white w-150 max-md:w-[90%] h-[80vh] max-md:h-[90vh] rounded-4xl
+            <div className={`bg-white w-160 max-md:w-[90%] h-[80vh] max-md:h-[90vh] rounded-4xl
              shadow-2xl flex flex-col items-center justify-between ${closing ? "modal-salida" : "modal-entrada"}`}
                 style={{ boxShadow: "0 5px 8px 6px rgba(100,100,100, 0.4)" }}
             >
