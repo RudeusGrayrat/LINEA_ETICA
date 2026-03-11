@@ -12,7 +12,7 @@ const Denunciar = () => {
                 onClick={() => setFormDenunciaShow(true)}
             >
                 <img src="/SILBATO_BLACK.svg" alt="SUBIR" className="h-[70%]" />
-                <span className="m-3 mt-10 text-3xl max-md:text-xl font-medium text-black">
+                <span className="xl:m-3 mt-5 xl:mt-10 text-3xl max-md:text-xl font-medium text-black">
                     Empezar denuncia
                 </span>
             </div>
